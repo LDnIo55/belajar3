@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  pdns-mariadb:
+    build:
+      context: ./pdns-mariadb
+    image: andika/pdns-mariadb:v1
+    environment:
+      MARIADB_ROOT_PASSWORD: rootpass
+      MARIADB_DATABASE: powerdns
+      MARIADB_USER: pdns
+      MARIADB_PASSWORD: pdnspass
+    volumes:
+      - pdns-db:/var/lib/mysql
+
+  pdns:
+    build:
+      context: ./pdns
+    image: andika/pdns:v1
+    depends_on:
+      - pdns-mariadb
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+
+  pdns-poweradmin:
+    build:
+      context: ./pdns-poweradmin
+    image: andika/pdns-poweradmin:v1
+    depends_on:
+      - pdns
+    ports:
+      - "8080:80"
+
+volumes:
+  pdns-db:
