@@ -10,6 +10,8 @@ RUN apt-get update && \
 
 WORKDIR /var/www/html
 
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
 RUN curl -L https://github.com/poweradmin/poweradmin/archive/refs/tags/v3.4.1.tar.gz | tar xz --strip-components=1
 
 RUN chown -R www-data:www-data /var/www/html

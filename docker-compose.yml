@@ -12,6 +12,7 @@ services:
       MARIADB_PASSWORD: pdnspass
     volumes:
       - pdns-db:/var/lib/mysql
+    restart: always
 
   pdns:
     build:
